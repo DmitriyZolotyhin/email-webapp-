@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="default">
+
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="row"  >
+    <div class="col-xs-8 col-md-8">
+
+        <form id="02" th:method="post"  th:action="@{/notes}">
+            <div class="form-group mt-1">
+                <h2>  <label for="url">Search for email addresses</label> </h2>
+                <input type="text" name="url" id="url" class="form-control" placeholder="Введите адрес для поиска email" required />
+            </div>
+            <button type="submit" th:method="post"  th:action="@{/notes}"
+                    onclick="onclickFind()"      class="btn btn-primary" >Find </button>
+            <h2>My Emails</h2>
+            <div class="table-responsive-lg">
+                <table class="table" id="emails-table">
+                    <thead>
+                    <tr>
+                        <th>Emails</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td><input type="hidden" name="emails2" th:value="${emails2}" th:action="@{/notes}"></td>
+                    </tr>
+                    <tr th:each="el:${emails2}" width="50">
+                        <td th:text="${el}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <h3>
+            <a href="/notes/create" class="btn btn-primary"><i class="fas fa-plus-square"></i> Letter</a>
+        </h3>
+        <h2>My Letters</h2>
+        <form id="03" th:method="post"  th:action="@{/notes/sendemails}"   >
+            <div class="table-responsive "     >
+                <table class="table" id="notes-table" >
+                    <thead>
+                    <tr>
+                        <th >Title</th>
+                        <th>Content</th>
+                        <th>Updated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="note : ${notes}">
+                        <td><a th:text="${note.title}" th:href="@{'/notes/show/' + ${note.id}}"></a></td>
+                        <td th:text="${note.content}"></td>
+                        <td th:text="${new java.text.SimpleDateFormat('dd MMM yyyy').format(note.updated)}">
+                        </td>
+                        <td>
+                            <input type="hidden" name="id" th:value="${note.id}"/>
+                            <input type="hidden" name="title" th:value="${note.title}" />
+                            <input type="hidden" name="content" th:value="${note.content}" />
+                            <button th:type="submit"    th:method="post"  th:action="@{/notes/sendemails}" th:id="${note.id}" th:name="${note.id}"   th:value="${note.id}"     class="btn btn-primary">Send </button>      <!--   Отправить </button> -->
+
+                        </td>
+                    </tr>
+                </table>
+                </tbody>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!--
+    <script>
+var emails-table = document.getElementById('emails-table');
+
+function onclickFind() {
+  emails-table.style.display = (emails-table.style.display == 'inline') ? '' : 'inline';
+  localStorage.setItem('hide', emails-table.style.display); // сохраняем значение в ключ hide
+}
+
+if(localStorage.getItem('hide') == 'inline') { // если значение ключа hide "inline"
+  document.getElementById('emails-table').style.display = 'inline';
+}
+
+
+
+
+
+</script>
+   -->
+<!--
+    <script>
+    const obj = {
+
+      toString() {
+        return `<tr><td>TEXT</tr></td>`;
+      }
+    }
+    localStorage.clear();
+    localStorage.setItem('obj', obj);
+    for (let i = 0; i < obj.count; i++) {
+      let div = document.createElement('div');
+      div.className = 'table-responsive-lg';
+      div.innerHTML = localStorage.getItem('obj');
+      document.body.append(div);
+    }
+  </script>
+   -->
+
+
+</body>
+</html>

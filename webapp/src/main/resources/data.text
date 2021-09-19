@@ -1,0 +1,5 @@
+
+--INSERT INTO USER VALUES(1, 'zolotoy18.12.19880@gmail.com', 'pass', 'dim', "ENABLED");
+
+--INSERT INTO ROLE VALUES(1, 'ADMIN');
+--INSERT INTO USERS_ROLES VALUES(1, 1);
